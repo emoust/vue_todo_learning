@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<title>A simple todo</title>
+		<script src="js/vue.js" type="text/javascript" charset="utf-8"></script>
+	</head>
+	<body>
+		<h1 id="h1">TODO for exercise:</h1>
+		<div id="clear_finished">
+			<button id="clear">Clear the used todo</button>
+		</div>
+		<div id="todos_display" v-if="if_already_have">
+			<!--This div is write for traverse the todo to display.-->
+			<ol>
+				<li v-for="todo in todo_list">
+					<p>{{todo.text}}</p>
+					<input type="hidden" v-model="this_id" value="{{this_id}}" />
+					<button v-on:click="change_state">Mark</button>
+				</li>
+			</ol>
+		</div>
+		<div id="add_todo">
+			<input id="input_todo" v-model="text" />
+			<button id="submit_todo" v-on:click="push_todo">add</button>
+		</div>
+		<script src="js/main.js" type="text/javascript" charset="UTF-8"></script>
+	</body>
+</html>
