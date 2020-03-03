@@ -64,7 +64,8 @@ var todos_display = new Vue({
 			}
 			console.log(this.finished_list);
 			for (var i in this.finished_list) {
-				//atodo_list[] = true;
+				console.log(i)
+				todo_list[i].is_finished = true;
 			}
 		}
 	}
