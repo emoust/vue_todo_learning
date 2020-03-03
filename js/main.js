@@ -16,7 +16,8 @@ var todos = new Vue({
 		if_already_have: is_empty(this.todo_list),
 		finished_list: [],
 		text: "",
-		edits:[]
+		edits:[],
+		search_arr_id : []
 	},
 	methods: {
 		init:function(){
@@ -37,25 +38,13 @@ var todos = new Vue({
 		},
 		clear: function() {
 			this.re_join_list();
-			var id = 0;
-			for (var ids in this.finished_list) {
-				console.log(this.todo_list[ids].is_finished)
-				if (this.todo_list[ids].is_finished === true) {
-					console.log(ids);
-					this.todo_list.splice(this.finished_list[ids], 1);
-				}
-			}
-			this.re_join_list();
+			var todo_list_new = this.todo_list.filter(function(todo){
+				return !todo.is_finished;
+			});
+			this.todo_list = todo_list_new.slice();
 		},
-		finish: function() {
-			for (var i in this.todo_list) {
-				this.todo_list[i].is_finished = false;
-			}
-			console.log(this.finished_list);
-			for (var i in this.finished_list) {
-				console.log(i);
-				this.todo_list[i].is_finished = true;
-			}
+		finish: function(ids) {
+			this.todo_list[ids].is_finished = !this.todo_list[ids].is_finished;
 		},
 		delete_item: function(ids) {
 			console.log(ids);
@@ -68,10 +57,13 @@ var todos = new Vue({
 				this.edits.splice(this.edits.indexOf(ids),1);
 			}
 			else if(type ===1){
-				this.edits.push(ids);
+				if (!this.edits.some(function(id){return id === this.todo.id})){
+					this.edits.push(ids);
+				}
 			}
 		},
 		push_todo: function() {
+			console.log("success");
 			if (this.text) {
 				this.todo_list.push({
 					id: this.todo_list.length,
@@ -84,6 +76,21 @@ var todos = new Vue({
 			}
 		}
 	}
+	// watch:{
+	// 	text:function(){
+	// 		//console.log("====================");
+	// 		var search_id = [];
+	// 		for (var ids in this.todo_list){
+	// 			//console.log(this.todo_list[ids].text.indexOf(this.text))
+	// 			if (!(this.todo_list[ids].text.indexOf(this.text) == -1)){
+	// 				console.log(ids);
+	// 				search_id.push(ids);
+	// 			}
+	// 		}
+	// 		console.log(search_id);
+	// 		this.search_arr_id = search_id;
+	// 	}
+	// }
 });
 
 //These are for what I trying use templates instead of directly usage.
