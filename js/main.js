@@ -19,22 +19,26 @@ var h1 = new Vue({
 
 var clear_finished = new Vue({
 	el: '#clear_finished',
+	data:{
+		todo_list:todo_list
+	},
 	methods: {
 		clear: function() {
 			console.log("Begin to clear:");
 			var todo_list_new = [];
 			var id = 0;
-			for (var todo in todo_list) {
-				if (todo.is_finished === false) {
-					todo_list_new.push({
-						id: id,
-						text: todo.text,
-						is_finished: false
-					});
-					id++;
+			for (var ids in todo_list) {
+				//console.log(todo_list[id].is_finished)
+				if (todo_list[id].is_finished === true) {
+					todo_list.splice(ids,1)
+					//console.log(todo_list_new)
 				}
-				todo_list = todo_list_new;
 			}
+			for (var ids in todo_list){
+				todo_list[ids].id = id;
+				id++;
+			}
+			
 		}
 	}
 });
@@ -51,11 +55,17 @@ var todos_display = new Vue({
 	data: {
 		todo_list: todo_list,
 		if_already_have: is_empty(todo_list),
-		is_finished: false
+		finished_list: []
 	},
 	methods: {
 		finish: function() {
-			todo_list[this.id].is_finished = this.is_finished
+			for (var i in todo_list) {
+				todo_list[i].is_finished = false;
+			}
+			console.log(this.finished_list);
+			for (var i in this.finished_list) {
+				//atodo_list[] = true;
+			}
 		}
 	}
 });

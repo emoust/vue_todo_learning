@@ -14,7 +14,8 @@
 			<!--This div is write for traverse the todo to display.-->
 			<ol>
 				<li v-for="todo in todo_list" :id="todo.id">
-					<p>{{todo.text}}</p><input type="checkbox" v-model="is_finished" v-on:click="fininsh"/>
+					<p>{{todo.text}}</p>
+					<input type="checkbox" v-model="finished_list" v-on:click="finish" :value="todo.id"/>
 				</li>
 			</ol>
 		</div>
