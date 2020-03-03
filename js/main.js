@@ -25,12 +25,11 @@ var clear_finished = new Vue({
 			var todo_list_new = [];
 			var id = 0;
 			for (var todo in todo_list) {
-				
 				if (todo.is_finished === false) {
 					todo_list_new.push({
 						id: id,
 						text: todo.text,
-						is_finished : false
+						is_finished: false
 					});
 					id++;
 				}
@@ -51,16 +50,14 @@ var todos_display = new Vue({
 	el: '#todos_display',
 	data: {
 		todo_list: todo_list,
-		this_id: 0,
-		if_already_have: is_empty(todo_list)		
+		if_already_have: is_empty(todo_list),
+		is_finished: false
+	},
+	methods: {
+		finish: function() {
+			todo_list[this.id].is_finished = this.is_finished
+		}
 	}
-	// methods: {
-	// 	change_state: function() {
-	// 		var id = this.this_id;
-	// 		console.log(id);
-	// 		todo_list[id].is_finished = true;
-	// 	}
-	//}
 });
 
 var add_todo = new Vue({
@@ -70,12 +67,16 @@ var add_todo = new Vue({
 	},
 	methods: {
 		push_todo: function() {
-			todo_list.push({
-				id: todo_list.length,
-				text: this.text,
-				is_finished: false
-			});
-			this.text = '';
+			if (this.text) {
+				todo_list.push({
+					id: todo_list.length,
+					text: this.text,
+					is_finished: false
+				});
+				this.text = '';
+			} else {
+				alert("The todo is blank!Plese input the todo item.")
+			}
 		}
 	}
 });
