@@ -63,7 +63,7 @@ var todos = new Vue({
 			}
 		},
 		push_todo: function() {
-			console.log("success");
+			//console.log("success");
 			if (this.text) {
 				this.todo_list.push({
 					id: this.todo_list.length,
@@ -75,22 +75,22 @@ var todos = new Vue({
 				alert("The todo is blank!Plese input the todo item.")
 			}
 		}
+	},
+	watch:{
+		text:function(){
+			//console.log("====================");
+			var search_id = [];
+			for (var ids in this.todo_list){
+				//console.log(this.todo_list[ids].text.indexOf(this.text))
+				if (!(this.todo_list[ids].text.indexOf(this.text) == -1)){
+					//console.log(ids);
+					search_id.push(Number(ids));
+				}
+			}
+			//console.log(search_id);
+			this.search_arr_id = search_id;
+		}
 	}
-	// watch:{
-	// 	text:function(){
-	// 		//console.log("====================");
-	// 		var search_id = [];
-	// 		for (var ids in this.todo_list){
-	// 			//console.log(this.todo_list[ids].text.indexOf(this.text))
-	// 			if (!(this.todo_list[ids].text.indexOf(this.text) == -1)){
-	// 				console.log(ids);
-	// 				search_id.push(ids);
-	// 			}
-	// 		}
-	// 		console.log(search_id);
-	// 		this.search_arr_id = search_id;
-	// 	}
-	// }
 });
 
 //These are for what I trying use templates instead of directly usage.
