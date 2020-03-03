@@ -7,19 +7,24 @@
 	</head>
 	<body>
 		<h1 id="h1">TODO for exercise:</h1>
-		<div id="clear_finished">
+		<div id="todos">
 			<button v-on:click="clear">Clear the used todo</button>
-		</div>
-		<div id="todos_display" v-if="if_already_have">
-			<!--This div is write for traverse the todo to display.-->
-			<ol>
-				<li v-for="todo in todo_list" :id="todo.id">
-					<p>{{todo.text}}</p>
-					<input type="checkbox" v-model="finished_list" v-on:click="finish" :value="todo.id"/>
-				</li>
-			</ol>
-		</div>
-		<div id="add_todo">
+			<input type="button" v-on:click="init" value="test button"/>
+			<div v-if="if_already_have">
+				<!--This div is write for traverse the todo to display.-->
+				<ol>
+					<li v-for="todo in todo_list">
+						<span style="font-size: medium;color: coral;">{{todo.text}}</span><br /><span style="color: crimson">finished</span>:<input type="checkbox" v-model="finished_list" v-on:click="finish" :value="todo.id" />
+						<input type="button" v-on:click="delete_item(todo.id)" value="Delete"/>
+						<input type="button" v-on:click="edit(1,todo.id)" value="edit"/>
+						<br />
+						<div v-if="todo.id in edits">
+						<input v-model="todo.text"/>
+						<input type="button" v-on:click="edit(0,todo.id)" value="sumbit"/>
+						</div>
+					</li>
+				</ol>
+			</div>
 			<input id="input_todo" v-model="text" />
 			<button id="submit_todo" v-on:click="push_todo">add</button>
 		</div>

@@ -1,4 +1,3 @@
-var todo_list = [];
 //todos = {{id:num.,text:"text",is_finished:true/false}}
 
 function is_empty(obj) {
@@ -10,77 +9,72 @@ function is_empty(obj) {
 	return true;
 }
 
-var h1 = new Vue({
-	el: '#h1',
+var todos = new Vue({
+	el: '#todos',
 	data: {
-
-	}
-});
-
-var clear_finished = new Vue({
-	el: '#clear_finished',
-	data:{
-		todo_list:todo_list
+		todo_list: [],
+		if_already_have: is_empty(this.todo_list),
+		finished_list: [],
+		text: "",
+		edits:[]
 	},
 	methods: {
-		clear: function() {
-			console.log("Begin to clear:");
-			var todo_list_new = [];
-			var id = 0;
-			for (var ids in todo_list) {
-				//console.log(todo_list[id].is_finished)
-				if (todo_list[id].is_finished === true) {
-					todo_list.splice(ids,1)
-					//console.log(todo_list_new)
-				}
+		init:function(){
+			for (i=0;i<10;i++){
+				this.todo_list.push({
+					id: this.todo_list.length,
+					text: i,
+					is_finished: false
+				});
 			}
-			for (var ids in todo_list){
-				todo_list[ids].id = id;
+		},
+		re_join_list: function(){
+			var id = 0;
+			for (var ids in this.todo_list) {
+				this.todo_list[ids].id = id;
 				id++;
 			}
-			
-		}
-	}
-});
-
-//These are for we use templates instead of directly usage.
-
-// Vue.component('todo-item', {
-// 	props: ['todo'],
-// 	template: '<li>{{todo.text}}</li>'
-// })
-
-var todos_display = new Vue({
-	el: '#todos_display',
-	data: {
-		todo_list: todo_list,
-		if_already_have: is_empty(todo_list),
-		finished_list: []
-	},
-	methods: {
+		},
+		clear: function() {
+			this.re_join_list();
+			var id = 0;
+			for (var ids in this.finished_list) {
+				console.log(this.todo_list[ids].is_finished)
+				if (this.todo_list[ids].is_finished === true) {
+					console.log(ids);
+					this.todo_list.splice(this.finished_list[ids], 1);
+				}
+			}
+			this.re_join_list();
+		},
 		finish: function() {
-			for (var i in todo_list) {
-				todo_list[i].is_finished = false;
+			for (var i in this.todo_list) {
+				this.todo_list[i].is_finished = false;
 			}
 			console.log(this.finished_list);
 			for (var i in this.finished_list) {
-				console.log(i)
-				todo_list[i].is_finished = true;
+				console.log(i);
+				this.todo_list[i].is_finished = true;
 			}
-		}
-	}
-});
-
-var add_todo = new Vue({
-	el: '#add_todo',
-	data: {
-		text: ''
-	},
-	methods: {
+		},
+		delete_item: function(ids) {
+			console.log(ids);
+			this.re_join_list();
+			this.todo_list.splice(ids,1);
+			this.re_join_list();
+		},
+		edit:function(type,ids){
+			if(type === 0){
+				this.edits.splice(this.edits.indexOf(ids),1);
+			}
+			else if(type ===1){
+				this.edits.push(ids);
+			}
+		},
 		push_todo: function() {
 			if (this.text) {
-				todo_list.push({
-					id: todo_list.length,
+				this.todo_list.push({
+					id: this.todo_list.length,
 					text: this.text,
 					is_finished: false
 				});
@@ -91,3 +85,10 @@ var add_todo = new Vue({
 		}
 	}
 });
+
+//These are for what I trying use templates instead of directly usage.
+
+// Vue.component('todo-item', {
+// 	props: ['todo'],
+// 	template: '<li>{{todo.text}}</li>'
+// })
