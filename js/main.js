@@ -10,18 +10,18 @@ function is_empty(obj) {
 }
 
 var todos = new Vue({
-	el: '#todos',
+	el: "#todos",
 	data: {
 		todo_list: [],
 		if_already_have: is_empty(this.todo_list),
 		finished_list: [],
 		text: "",
-		edits:[],
-		search_arr_id : []
+		edits: [],
+		search_arr_id: []
 	},
 	methods: {
-		init:function(){
-			for (i=0;i<10;i++){
+		init: function () {
+			for (i = 0; i < 10; i++) {
 				this.todo_list.push({
 					id: this.todo_list.length,
 					text: i,
@@ -29,40 +29,43 @@ var todos = new Vue({
 				});
 			}
 		},
-		re_join_list: function(){
+		re_join_list: function () {
 			var id = 0;
 			for (var ids in this.todo_list) {
 				this.todo_list[ids].id = id;
 				id++;
 			}
 		},
-		clear: function() {
+		clear: function () {
 			this.re_join_list();
-			var todo_list_new = this.todo_list.filter(function(todo){
+			var todo_list_new = this.todo_list.filter(function (todo) {
 				return !todo.is_finished;
 			});
 			this.todo_list = todo_list_new.slice();
 		},
-		finish: function(ids) {
+		finish: function (ids) {
 			this.todo_list[ids].is_finished = !this.todo_list[ids].is_finished;
 		},
-		delete_item: function(ids) {
+		delete_item: function (ids) {
 			console.log(ids);
 			this.re_join_list();
-			this.todo_list.splice(ids,1);
+			this.todo_list.splice(ids, 1);
 			this.re_join_list();
 		},
-		edit:function(type,ids){
-			if(type === 0){
-				this.edits.splice(this.edits.indexOf(ids),1);
-			}
-			else if(type ===1){
-				if (!this.edits.some(function(id){return id === this.todo.id})){
+		edit: function (type, ids) {
+			if (type === 0) {
+				this.edits.splice(this.edits.indexOf(ids), 1);
+			} else if (type === 1) {
+				if (
+					!this.edits.some(function (id) {
+						return id === this.todo.id;
+					})
+				) {
 					this.edits.push(ids);
 				}
 			}
 		},
-		push_todo: function() {
+		push_todo: function () {
 			//console.log("success");
 			if (this.text) {
 				this.todo_list.push({
@@ -70,19 +73,19 @@ var todos = new Vue({
 					text: this.text,
 					is_finished: false
 				});
-				this.text = '';
+				this.text = "";
 			} else {
-				alert("The todo is blank!Plese input the todo item.")
+				alert("The todo is blank!Plese input the todo item.");
 			}
 		}
 	},
-	watch:{
-		text:function(){
+	watch: {
+		text: function () {
 			//console.log("====================");
 			var search_id = [];
-			for (var ids in this.todo_list){
+			for (var ids in this.todo_list) {
 				//console.log(this.todo_list[ids].text.indexOf(this.text))
-				if (!(this.todo_list[ids].text.indexOf(this.text) == -1)){
+				if (!(this.todo_list[ids].text.indexOf(this.text) == -1)) {
 					//console.log(ids);
 					search_id.push(Number(ids));
 				}

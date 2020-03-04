@@ -1,37 +1,41 @@
 <!DOCTYPE html>
 <html>
-	<head>
-		<meta charset="utf-8" />
-		<title>A simple todo</title>
-		<script src="js/vue.js" type="text/javascript" charset="utf-8"></script>
-	</head>
-	<body>
-		<h1 id="h1">TODO for exercise:</h1>
-		<div id="todos">
-			<button @click="clear">Clear the used todo</button>
-			<input type="button" @click="init" value="test button" />
-			<div v-if="if_already_have">
-				<!--This div is write for traverse the todo to display.-->
-				<span v-for="todo in todo_list">
+
+<head>
+	<meta charset="utf-8" />
+	<title>A simple todo</title>
+	<script src="js/vue.js" type="text/javascript" charset="utf-8"></script>
+</head>
+
+<body>
+	<h1 id="h1">TODO for exercise:</h1>
+	<div id="todos">
+		<button @click="clear">Clear the used todo</button>
+		<input type="button" @click="init" value="test button" />
+		<div v-if="if_already_have">
+			<!--This div is write for traverse the todo to display.-->
+			<span v-for="todo in todo_list">
 				<li v-if="search_arr_id.some(function(id){return id == todo.id})">
 					<span>
-						<span style="font-size: medium;color: coral;">{{todo.text}}</span><br />
+						<span v-if="!edits.some(function(id){return id === todo.id})"
+							style="font-size: medium;color: coral;" @click="edit(1,todo.id)">{{todo.text}}</span>
+						<template v-else-if="edits.some(function(id){return id === todo.id})">
+							<input v-model="todo.text" />
+							<input type="button" @click="edit(0,todo.id)" value="sumbit" />
+						</template>
+						<br />
 						<span v-if="todo.is_finished" style="color: crimson">finished</span>
 						<input type="button" @click="finish(todo.id)" value="Finish this!" />
 						<input type="button" @click="delete_item(todo.id)" value="Delete" />
-						<input type="button" @click="edit(1,todo.id)" value="edit" />
 						<br />
-						<div v-if="edits.some(function(id){return id === todo.id})">
-							<input v-model="todo.text" />
-							<input type="button" @click="edit(0,todo.id)" value="sumbit" />
-						</div>
 					</span>
 				</li>
-				</span>
-			</div>
-			<input v-model="text" />
-			<button id="submit_todo" @click="push_todo">add</button>
+			</span>
 		</div>
-		<script src="js/main.js" type="text/javascript" charset="UTF-8"></script>
-	</body>
+		<input v-model="text" />
+		<button id="submit_todo" @click="push_todo">add</button>
+	</div>
+	<script src="js/main.js" type="text/javascript" charset="UTF-8"></script>
+</body>
+
 </html>
