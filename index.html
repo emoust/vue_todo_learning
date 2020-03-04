@@ -11,7 +11,6 @@
 	<h1 id="h1">TODO for exercise:</h1>
 	<div id="todos">
 		<button @click="clear">Clear the used todo</button>
-		<input type="button" @click="init" value="test button" />
 		<div v-if="if_already_have">
 			<!--This div is write for traverse the todo to display.-->
 			<span v-for="todo in todo_list">
